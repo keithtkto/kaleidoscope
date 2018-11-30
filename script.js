@@ -21,7 +21,7 @@ const cameraConstraints = {
   // video: { facingMode: 'user' }
 };
 
-
+console.log('navigator', navigator.webkitGetUserMedia)
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
   navigator.mediaDevices.getUserMedia(cameraConstraints)
     .then(function(stream) { 
@@ -158,7 +158,31 @@ function updateGridGeometry(){
 	const tileMesh = new THREE.Mesh(tileGeometry, tile);
 	tileMesh.scale.set( scale, scale, 1 );
 	tileMesh.rotation.z = rotOffset;
-	tileRow.add(tileMesh);
+  tileRow.add(tileMesh);
+  
+	const tileCountX = 15;
+	for (let i=0; i<tileCountX; i++) {
+		const tileMeshLeft = tileMesh.clone();
+		tileMeshLeft.position.x -= (tileWidth * scale) * (i+1);
+		tileRow.add(tileMeshLeft);
+
+		const tileMeshRight = tileMesh.clone();
+		tileMeshRight.position.x += (tileWidth * scale) * (i+1);
+		tileRow.add(tileMeshRight);
+	}
+
+	const tileCountY = 15;
+	for (let i=0; i<tileCountY; i++) {
+		const tileRowTop = tileRow.clone();
+		tileRowTop.position.y += tileHeight * scale * (i+1);
+		if (!(i%2)) tileRowTop.position.x += tileRowOffset * scale;
+		tileGroup.add(tileRowTop);
+
+		const tileRowBottom = tileRow.clone();
+		tileRowBottom.position.y -= tileHeight * scale * (i+1);
+		if (!(i%2)) tileRowBottom.position.x += tileRowOffset * scale;
+		tileGroup.add(tileRowBottom);
+	}
 
 
 
