@@ -3,6 +3,7 @@ const numAxes = 12;
 const bufferSize = 1024;
 const bufferWidth = bufferSize;
 const bufferHeight = bufferSize;
+let rotateDegZ = 0
 
 // Set Up
 const scene = new THREE.Scene();
@@ -21,7 +22,6 @@ const cameraConstraints = {
   // video: { facingMode: 'user' }
 };
 
-console.log('navigator', navigator.webkitGetUserMedia)
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
   navigator.mediaDevices.getUserMedia(cameraConstraints)
     .then(function(stream) { 
@@ -126,10 +126,10 @@ function updateGridGeometry(){
   
   // set UV mapping (Mapping the 2d video texture into 3d)
 	tileGeometry.faceVertexUvs[0] = [];
-	var mapWidth = 1 / snapStep;
-	var diff = 1 - mapWidth;
-	var mapLeft = diff / 2;
-	var mapRight = 1 - diff / 2;
+	const mapWidth = 1 / snapStep;
+	let diff = 1 - mapWidth;
+	let mapLeft = diff / 2;
+	let mapRight = 1 - diff / 2;
 
 	for (i = 0; i < tileGeometry.faces.length ; i++) {
 		if (i%2) {
@@ -183,8 +183,9 @@ function updateGridGeometry(){
 		if (!(i%2)) tileRowBottom.position.x += tileRowOffset * scale;
 		tileGroup.add(tileRowBottom);
 	}
+  rotateDegZ += 0.01;
 
-
+  tileGroup.rotateZ(THREE.Math.degToRad(rotateDegZ));
 
   scene.add(tileGroup);
 
@@ -198,7 +199,9 @@ function render()
 {
 	// stats.begin();
 
-	// update();
+  // update();
+  updateGridGeometry();
+
 	
 	renderer.render(scene, camera);
 
