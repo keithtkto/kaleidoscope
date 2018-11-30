@@ -160,6 +160,8 @@ function updateGridGeometry(){
 	tileMesh.rotation.z = rotOffset;
   tileRow.add(tileMesh);
   
+
+  // Create Grid
 	const tileCountX = 15;
 	for (let i=0; i<tileCountX; i++) {
 		const tileMeshLeft = tileMesh.clone();
@@ -182,10 +184,10 @@ function updateGridGeometry(){
 		tileRowBottom.position.y -= tileHeight * scale * (i+1);
 		if (!(i%2)) tileRowBottom.position.x += tileRowOffset * scale;
 		tileGroup.add(tileRowBottom);
-	}
-  rotateDegZ += 0.01;
-
-  tileGroup.rotateZ(THREE.Math.degToRad(rotateDegZ));
+  }
+  
+  // rotateDegZ += 0.01;
+  // tileGroup.rotateZ(THREE.Math.degToRad(rotateDegZ));
 
   scene.add(tileGroup);
 
@@ -195,12 +197,11 @@ updateGridGeometry();
 
 
 
-function render()
-{
+function render() {
 	// stats.begin();
 
   // update();
-  updateGridGeometry();
+  // updateGridGeometry();
 
 	
 	renderer.render(scene, camera);
