@@ -1,9 +1,69 @@
+// DOM Control
+const flipBtn = document.getElementById('flipBtn');
+const controls = document.getElementById('controls');
+const leftTap = document.getElementById('leftTap');
+const rightTap = document.getElementById('rightTap');
+
+flipBtn.addEventListener('click', () => {
+  setCamera();
+});
+
+
+function handleHideControls(){
+  setTimeout(()=> {
+    controls.classList.add('hide')
+  }, 5000);
+}
+
+handleHideControls();
+
+document.body.addEventListener('touchstart', ()=>{
+  controls.classList.remove('hide');
+  handleHideControls();
+})
+
+leftTap.addEventListener('touchstart', () => {
+  leftTap.classList.remove('hide');
+  if (axesIndex === 0) {
+    axesIndex = availableAxes.length - 1;
+  } else {
+    axesIndex--;
+  }
+  numAxes = availableAxes[axesIndex];
+  updateGridGeometry();
+});
+
+leftTap.addEventListener('touchend', () => {
+  leftTap.classList.add('hide');
+});
+
+rightTap.addEventListener('touchstart', () => {
+  rightTap.classList.remove('hide');
+  if (axesIndex === availableAxes.length - 1) {
+    axesIndex = 0;
+  } else {
+    axesIndex++;
+  }
+  numAxes = availableAxes[axesIndex];
+  updateGridGeometry();
+});
+
+rightTap.addEventListener('touchend', () => {
+  rightTap.classList.add('hide');
+});
+
+
 // Default Setting
-const numAxes = 12;
+const availableAxes = [4,6,8,12,16,18,24,32,42];
+var axesIndex = 3;
+var numAxes = availableAxes[axesIndex];
 const bufferSize = 1024;
 const bufferWidth = bufferSize;
 const bufferHeight = bufferSize;
-let rotateDegZ = 0
+var cameraConstraints = {
+  audio: false,
+  video: { facingMode: 'environment' },
+};
 
 // Set Up
 const scene = new THREE.Scene();
@@ -16,21 +76,33 @@ document.body.appendChild(renderer.domElement);
 
 // Grab and create Video Texture device camera 
 const video = document.getElementById( 'video' );
-const cameraConstraints = {
-  audio: false,
-  video: { facingMode: 'environment' },
-  // video: { facingMode: 'user' }
-};
 
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia(cameraConstraints)
-    .then(function(stream) { 
-        video.srcObject = stream;
-    })
-    .catch(function(err){
-      console.log('err:', err);
-    });
+function setCamera(){
+  if (cameraConstraints.video.facingMode === 'environment') {
+    cameraConstraints = {
+      audio: false,
+      video: { facingMode: 'user' },
+    };
+  } else {
+      cameraConstraints = {
+        audio: false,
+        video: { facingMode: 'environment' }
+      };
+  }
+
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia(cameraConstraints)
+      .then(function(stream) { 
+          video.srcObject = stream;
+      })
+      .catch(function(err){
+        console.log('err:', err);
+      });
+  }
 }
+
+setCamera();
+
 
 const videoTexture = new THREE.VideoTexture( video );
 videoTexture.minFilter = THREE.LinearFilter;
@@ -74,13 +146,24 @@ function updateGridGeometry(){
 
 
   // Calculate tiles offset
-  snapStep = numAxes/6;
-  stepAngle = 2 * Math.PI / 6;
-  rotOffset = stepAngle / 2;
+  if ( !(numAxes % 6) ) {
+    snapStep = numAxes/6;
+    stepAngle = 2 * Math.PI / 6;
+    rotOffset = stepAngle / 2;
+  
+    tileWidth = b*2;
+    tileHeight = a + c;
+    tileRowOffset = b;
+  } else {
+    snapStep = numAxes/4;
+		stepAngle = (2*Math.PI) / 4;
+		rotOffset = 0;
 
-  tileWidth = b*2;
-  tileHeight = a + c;
-  tileRowOffset = b;
+		tileWidth = c * 2;
+		tileHeight = c;
+		tileRowOffset = c;
+  }
+
 
   // Calculate vertices (A point in 3D space) of the each triangle
 	for (let i=0; i<numSteps; i++) {
@@ -186,8 +269,6 @@ function updateGridGeometry(){
 		tileGroup.add(tileRowBottom);
   }
   
-  // rotateDegZ += 0.01;
-  // tileGroup.rotateZ(THREE.Math.degToRad(rotateDegZ));
 
   scene.add(tileGroup);
 
@@ -198,15 +279,9 @@ updateGridGeometry();
 
 
 function render() {
-	// stats.begin();
-
-  // update();
-  // updateGridGeometry();
 
 	
 	renderer.render(scene, camera);
-
-	// stats.end();
 
 	requestAnimationFrame(render);
 }

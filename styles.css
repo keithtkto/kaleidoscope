@@ -1,0 +1,83 @@
+body { 
+  margin: 0; 
+  overflow: hidden; 
+  background-color: #fff;
+}
+
+canvas { 
+  width: 100%; 
+  height: 100%;
+}
+
+video { 
+  position: fixed; 
+  z-index: -1; 
+}
+
+.disable-dbl-tap-zoom, body, html {
+  touch-action: manipulation;
+}
+
+.controls {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.disabled {
+  user-select: none;
+  pointer-events: none;
+}
+/* Controllers */
+.flip {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  padding: 24px;
+  width: 10%;
+}
+
+.tab {
+  height: 100%;
+  background-image: linear-gradient(to right, rgba(255,255,255,0.5), rgba(255,255,255,0));
+  width: 33%;
+}
+
+.right {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-image: linear-gradient(to left, rgba(255,255,255,0.5), rgba(255,255,255,0));
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (pointer:none), (pointer:coarse) {
+  .mobile-only {
+    display: initial;
+  }
+}
+
+@media (orientation: landscape) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}
