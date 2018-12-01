@@ -34,7 +34,7 @@ leftTap.addEventListener('touchstart', () => {
 });
 
 leftTap.addEventListener('touchend', () => {
-  leftTap.classList.add('hide');
+  setTimeout(() => leftTap.classList.add('hide'), 200);
 });
 
 rightTap.addEventListener('touchstart', () => {
@@ -49,7 +49,7 @@ rightTap.addEventListener('touchstart', () => {
 });
 
 rightTap.addEventListener('touchend', () => {
-  rightTap.classList.add('hide');
+  setTimeout(() => rightTap.classList.add('hide'), 200);
 });
 
 
