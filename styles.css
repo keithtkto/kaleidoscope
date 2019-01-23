@@ -14,11 +14,7 @@ video {
   z-index: -1; 
 }
 
-.disable-dbl-tap-zoom, body, html {
-  touch-action: manipulation;
-}
-
-.controls {
+.fullScreen {
   position: fixed;
   left: 0;
   right: 0;
@@ -26,6 +22,42 @@ video {
   bottom: 0;
   width: 100%;
   height: 100%;
+}
+
+.cover {
+  background: black;
+}
+
+.header {
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 2px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 0;
+  line-height: 50px;
+}
+
+h1 {
+  font-size: 80px;
+}
+
+h2 {
+  font-size: 60px;
+}
+
+.abs-center {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  text-align: center;
+}
+
+.disable-dbl-tap-zoom, body, html {
+  touch-action: manipulation;
+}
+
+.controls {
   transition: opacity 0.5s;
   opacity: 1;
 }
@@ -39,12 +71,21 @@ video {
   pointer-events: none;
 }
 /* Controllers */
+.flipBtn {
+  position: absolute;
+  bottom: 0;
+  height: 10%;
+  width: 100%;
+  background-image: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0));
+}
+
 .flip {
-  position: fixed;
-  right: 0;
+  position: absolute;
+  left: 50%;
   bottom: 0;
   padding: 24px;
   width: 10%;
+  transform: translate(-50%, 0%);
 }
 
 .tab {
@@ -81,4 +122,18 @@ video {
     top: 100%;
     left: 0;
   }
+}
+
+/* Animations */
+.disappear {
+  -webkit-transition: 3s;
+  -moz-transition: 3s;
+  -ms-transition: 3s;
+  -o-transition: 3s;
+  transition: 3s;
+  opacity: 0 !important;
+}
+
+.noDisplay {
+  display: none;
 }

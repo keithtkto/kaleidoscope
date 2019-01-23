@@ -5,16 +5,25 @@
     <meta name="viewport" content="user-scalable=no" />
     <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
 
-		<title>Kaleidoscope</title>
+    <title>Kaleidoscope</title>
+    <link href="https://fonts.googleapis.com/css?family=Elsie+Swash+Caps" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 
 	</head>
 	<body>
     <video id="video" autoplay playsinline muted></video>
-    <div class="controls disable-dbl-tap-zoom" id="controls">
+    <div class="controls disable-dbl-tap-zoom fullScreen" id="controls">
       <div id="leftTap" class="tab hide disable-dbl-tap-zoom"></div>
       <div id="rightTap" class="tab right hide disable-dbl-tap-zoom"></div>
-      <img id="flipBtn" class="mobile-only flip disable-dbl-tap-zoom" src="assets/flip.png" alt="flip btn">
+      <div id="flipBtn" class="flipBtn">
+        <img class="mobile-only flip disable-dbl-tap-zoom" src="assets/flip.png" alt="flip btn">
+      </div>
+    </div>
+    <div class="cover fullScreen" id="cover">
+      <div class="abs-center">
+        <h1 class="header">Kaleidoscope</h1>
+        <h1 class="header">One</h1>
+      </div>
     </div>
 		<script src="js/three.min.js"></script>
 		<!-- <script src="js/controls/OrbitControls.js"></script>
@@ -22,7 +31,9 @@
 		<!-- <script src="js/dat.gui.min.js"></script> -->
 		<script src="js/stats.min.js"></script>
 		<!-- <script src="js/TorusKnotShape.js"></script> -->
+		<script src="js/bufferTexture.js"></script>
 		<script src="script.js"></script>
+		<script src="dom.js"></script>
 
 		
 	</body>

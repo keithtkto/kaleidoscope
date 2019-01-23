@@ -12,7 +12,7 @@ flipBtn.addEventListener('click', () => {
 function handleHideControls(){
   setTimeout(()=> {
     controls.classList.add('hide')
-  }, 5000);
+  }, 1000);
 }
 
 handleHideControls();
@@ -62,7 +62,7 @@ const bufferWidth = bufferSize;
 const bufferHeight = bufferSize;
 var cameraConstraints = {
   audio: false,
-  video: { facingMode: 'environment' },
+  video: { facingMode: '' },
 };
 
 // Set Up
